@@ -19,17 +19,12 @@ class TransactionCard extends StatelessWidget {
         child: Row(
           children: [
             Container(
-              height: 80,
-              width: 80,
-              padding: EdgeInsets.all(5),
+              height: 75,
+              width: 75,
+              padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.black,
-                border: Border(
-                  top: BorderSide(color: Colors.transparent),
-                  left: BorderSide(color: Colors.transparent),
-                  bottom: BorderSide(color: Colors.transparent),
-                  right: BorderSide(color: Colors.transparent),
-                ),
+                border: Border.all(color: Colors.transparent),
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
               child: FittedBox(
@@ -37,7 +32,7 @@ class TransactionCard extends StatelessWidget {
                   amount,
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 18,
+                    fontSize: 20,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
