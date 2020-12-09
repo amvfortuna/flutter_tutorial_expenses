@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:intl/locale.dart';
 
+import './transaction.dart';
 import './transaction_card.dart';
 
 void main() {
@@ -7,7 +10,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -30,6 +32,32 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final List<Transaction> _transactions = [
+    Transaction(
+        name: 'Cheesy feet rubber cheese mascarpone.',
+        amount: 500,
+        date: DateTime.now()),
+    Transaction(
+      name: 'Sample 2',
+      amount: 1000,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      name: 'Sample 3',
+      amount: 2000,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      name: 'Sample 4',
+      amount: 3000,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      name: 'Sample 5',
+      amount: 4000,
+      date: DateTime.now(),
+    ),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -38,13 +66,13 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: ListView(
-        children: [
-          TransactionCard(name: 'Cheesy feet rubber cheese mascarpone.', amount: '500', date: 'Dec 20',),
-          TransactionCard(name: 'Sample 2', amount: '1000', date: 'Dec 21',),
-          TransactionCard(name: 'Sample 3', amount: '1500', date: 'Dec 22',),
-          TransactionCard(name: 'Sample 4', amount: '2000', date: 'Dec 23',),
-          TransactionCard(name: 'Sample 5', amount: '2500', date: 'Dec 24',),
-        ],
+        children: _transactions
+            .map((tx) => TransactionCard(
+                  name: tx.name,
+                  amount: tx.amount.toString(),
+                  date: DateFormat('d MMM yyyy | h:mm a').format(tx.date),
+                ))
+            .toList(),
       ),
     );
   }

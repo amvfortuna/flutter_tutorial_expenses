@@ -15,12 +15,10 @@ class TransactionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Card(
       child: Container(
-        padding: EdgeInsets.all(5),
+        padding: EdgeInsets.all(10),
         child: Row(
           children: [
             Container(
-              height: 75,
-              width: 75,
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
                 color: Colors.black,
