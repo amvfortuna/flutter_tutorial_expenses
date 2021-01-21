@@ -41,15 +41,17 @@ class CreateTransactionState extends State<CreateTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TransactionForm(
-          onAddButtonTapped: _addTransaction,
-        ),
-        TransactionList(
-          transactions: _transactions,
-        ),
-      ],
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          TransactionForm(
+            onAddButtonTapped: _addTransaction,
+          ),
+          TransactionList(
+            transactions: _transactions,
+          ),
+        ],
+      ),
     );
   }
 }
