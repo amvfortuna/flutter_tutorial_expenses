@@ -21,7 +21,7 @@ class TransactionCard extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(10),
               decoration: BoxDecoration(
-                color: Colors.black,
+                color: Theme.of(context).primaryColorDark,
                 border: Border.all(color: Colors.transparent),
                 borderRadius: BorderRadius.all(Radius.circular(8)),
               ),
@@ -47,10 +47,7 @@ class TransactionCard extends StatelessWidget {
                   children: [
                     Text(
                       name,
-                      style: TextStyle(
-                        fontSize: 17,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: Theme.of(context).textTheme.headline6,
                     ),
                     Text(
                       date,
