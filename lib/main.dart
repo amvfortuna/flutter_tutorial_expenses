@@ -1,11 +1,10 @@
-import 'dart:developer';
-
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:uuid/uuid.dart';
 
 import './widgets/transaction_form.dart';
 import './widgets/transaction_list.dart';
+import './widgets/chart.dart';
+
 import './models/transaction.dart';
 
 void main() => runApp(MyApp());
@@ -16,20 +15,12 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  final List<Transaction> _transactions = [
-    // Transaction(
-    //   id: Uuid().v4(),
-    //   name: 'Cheesy feet rubber cheese mascarpone.',
-    //   amount: 500,
-    //   date: DateTime.now(),
-    // ),
-    // Transaction(
-    //   id: Uuid().v4(),
-    //   name: 'Sample 2',
-    //   amount: 1000,
-    //   date: DateTime.now(),
-    // ),
-  ];
+  final List<Transaction> _transactions = [];
+
+  List<Transaction> get _recentTransactions {
+    final aWeekAgo = DateTime.now().subtract(Duration(days: 7));
+    return _transactions.where((tx) => tx.date.isAfter(aWeekAgo)).toList();
+  }
 
   void _addTransaction(String title, double amount) {
     final transaction = Transaction(
@@ -52,12 +43,12 @@ class MyAppState extends State<MyApp> {
         primarySwatch: Colors.green,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
-          headline6: TextStyle(
-            fontFamily: 'OpenSans',
-            fontWeight: FontWeight.bold,
-            fontSize: 17,
-          ),
-        ),
+              headline6: TextStyle(
+                fontFamily: 'OpenSans',
+                fontWeight: FontWeight.bold,
+                fontSize: 17,
+              ),
+            ),
         appBarTheme: AppBarTheme(
           textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: TextStyle(
@@ -77,6 +68,7 @@ class MyAppState extends State<MyApp> {
         body: SingleChildScrollView(
           child: Column(
             children: [
+              Chart(_recentTransactions),
               TransactionList(
                 transactions: _transactions,
               ),
@@ -98,16 +90,17 @@ class ModalTransactionForm extends StatelessWidget {
 
   void presentTransactionForm(BuildContext context) {
     showModalBottomSheet(
-        context: context,
-        builder: (_) {
-          return GestureDetector(
-            onTap: () {},
-            child: TransactionForm(
-              onAddButtonTapped: onAddButtonTapped,
-            ),
-            behavior: HitTestBehavior.opaque,
-          );
-        });
+      context: context,
+      builder: (_) {
+        return GestureDetector(
+          onTap: () {},
+          child: TransactionForm(
+            onAddButtonTapped: onAddButtonTapped,
+          ),
+          behavior: HitTestBehavior.opaque,
+        );
+      },
+    );
   }
 
   @override
