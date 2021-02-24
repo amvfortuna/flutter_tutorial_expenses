@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
   final Function(String, double) onAddButtonTapped;
@@ -50,6 +51,26 @@ class TransactionFormState extends State<TransactionForm> {
               controller: _amountController,
               keyboardType: TextInputType.numberWithOptions(decimal: true),
               onSubmitted: (_) => _addButtonPressed(),
+            ),
+            Container(
+              margin: EdgeInsets.symmetric(vertical: 5),
+              height: 60,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      DateFormat('d MMMM yyyy').format(
+                        DateTime.now(),
+                      ),
+                      style: TextStyle(fontSize: 17,),
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () {},
+                    child: Text('Select date'),
+                  ),
+                ],
+              ),
             ),
             Container(
               height: 44,
