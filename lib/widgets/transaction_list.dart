@@ -6,8 +6,9 @@ import './transaction_card.dart';
 
 class TransactionList extends StatelessWidget {
   final List<Transaction> transactions;
+  final Function(Transaction) onDeleteTransaction;
 
-  TransactionList({this.transactions});
+  TransactionList({this.transactions, this.onDeleteTransaction});
 
   Widget emptyState(BuildContext context) {
     return Container(
@@ -23,10 +24,11 @@ class TransactionList extends StatelessWidget {
             height: 50,
           ),
           Container(
-            height: 300,
-            child: Image.asset(
-              'assets/images/waiting.png',
-              fit: BoxFit.cover,
+            child: Expanded(
+              child: Image.asset(
+                'assets/images/waiting.png',
+                fit: BoxFit.cover,
+              ),
             ),
           ),
         ],
@@ -47,6 +49,9 @@ class TransactionList extends StatelessWidget {
                   name: tx.name,
                   amount: tx.amount.toStringAsFixed(2),
                   date: DateFormat('d MMM yyyy | h:mm a').format(tx.date),
+                  deleteTransactionTapped: () {
+                    onDeleteTransaction(transactions[idx]);
+                  },
                 );
               },
               itemCount: transactions.length,

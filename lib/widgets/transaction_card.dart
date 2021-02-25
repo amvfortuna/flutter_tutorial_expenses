@@ -4,63 +4,44 @@ class TransactionCard extends StatelessWidget {
   final String name;
   final String amount;
   final String date;
+  final Function deleteTransactionTapped;
 
   TransactionCard({
     this.name,
     this.amount,
     this.date,
+    this.deleteTransactionTapped,
   });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: Container(
-        padding: EdgeInsets.all(10),
-        child: Row(
-          children: [
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColorDark,
-                border: Border.all(color: Colors.transparent),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: FittedBox(
-                child: Text(
-                  amount,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ),
+      elevation: 4,
+      child: ListTile(
+        leading: CircleAvatar(
+          radius: 30,
+          child: Padding(
+            padding: EdgeInsets.all(5),
+            child: FittedBox(
+              child: Text(amount),
             ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.only(
-                  left: 10,
-                  right: 5,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      style: Theme.of(context).textTheme.headline6,
-                    ),
-                    Text(
-                      date,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+          ),
+        ),
+        title: Text(
+          name,
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        subtitle: Text(
+          date,
+          style: TextStyle(
+            fontSize: 15,
+            color: Colors.grey,
+          ),
+        ),
+        trailing: IconButton(
+          icon: Icon(Icons.delete),
+          color: Theme.of(context).errorColor,
+          onPressed: deleteTransactionTapped,
         ),
       ),
     );

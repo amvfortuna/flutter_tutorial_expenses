@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class TransactionForm extends StatefulWidget {
-  final Function(String, double) onAddButtonTapped;
+  final Function(String, double, DateTime) onAddButtonTapped;
 
   TransactionForm({this.onAddButtonTapped});
 
@@ -13,6 +13,7 @@ class TransactionForm extends StatefulWidget {
 class TransactionFormState extends State<TransactionForm> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime _selectedDate = DateTime.now();
 
   void _addButtonPressed() {
     final title = _titleController.text;
@@ -25,12 +26,33 @@ class TransactionFormState extends State<TransactionForm> {
     widget.onAddButtonTapped(
       title,
       amount,
+      _selectedDate,
     );
 
     _titleController.clear();
     _amountController.clear();
 
     Navigator.of(context).pop();
+  }
+
+  void _presentDatePicker() {
+    final days = 365;
+    final firstDate = DateTime.now().subtract(Duration(days: days));
+    final lastDate = DateTime.now().add(Duration(days: days));
+    showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: firstDate,
+      lastDate: lastDate,
+    ).then((selectedDate) {
+      if (selectedDate == null) {
+        return;
+      }
+
+      setState(() {
+        _selectedDate = selectedDate;
+      });
+    });
   }
 
   @override
@@ -60,14 +82,18 @@ class TransactionFormState extends State<TransactionForm> {
                   Expanded(
                     child: Text(
                       DateFormat('d MMMM yyyy').format(
-                        DateTime.now(),
+                        _selectedDate,
                       ),
-                      style: TextStyle(fontSize: 17,),
+                      style: TextStyle(
+                        fontSize: 17,
+                      ),
                     ),
                   ),
                   TextButton(
-                    onPressed: () {},
-                    child: Text('Select date'),
+                    onPressed: _presentDatePicker,
+                    child: Text(
+                      'Select date',
+                    ),
                   ),
                 ],
               ),
@@ -77,16 +103,9 @@ class TransactionFormState extends State<TransactionForm> {
               width: double.infinity,
               margin: EdgeInsets.only(top: 15),
               child: ElevatedButton(
-                style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith(
-                      (states) => Colors.green),
-                ),
                 child: Text(
                   'Add transaction',
-                  style: TextStyle(
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.white),
+                  style: Theme.of(context).textTheme.button,
                 ),
                 onPressed: _addButtonPressed,
               ),

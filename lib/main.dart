@@ -22,16 +22,22 @@ class MyAppState extends State<MyApp> {
     return _transactions.where((tx) => tx.date.isAfter(aWeekAgo)).toList();
   }
 
-  void _addTransaction(String title, double amount) {
+  void _addTransaction(String title, double amount, DateTime date) {
     final transaction = Transaction(
       id: Uuid().v1(),
       name: title,
       amount: amount,
-      date: DateTime.now(),
+      date: date,
     );
 
     setState(() {
       _transactions.add(transaction);
+    });
+  }
+
+  void _deleteTransaction(Transaction transaction) {
+    setState(() {
+      _transactions.remove(transaction);
     });
   }
 
@@ -40,13 +46,19 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Flutter Expense',
       theme: ThemeData(
-        primarySwatch: Colors.green,
+        primarySwatch: Colors.orange,
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
               headline6: TextStyle(
                 fontFamily: 'OpenSans',
                 fontWeight: FontWeight.bold,
                 fontSize: 17,
+              ),
+              button: TextStyle(
+                fontFamily: 'OpenSans',
+                fontSize: 17,
+                fontWeight: FontWeight.w600,
+                color: Colors.white,
               ),
             ),
         appBarTheme: AppBarTheme(
@@ -71,6 +83,7 @@ class MyAppState extends State<MyApp> {
               Chart(_recentTransactions),
               TransactionList(
                 transactions: _transactions,
+                onDeleteTransaction: _deleteTransaction,
               ),
             ],
           ),
@@ -84,7 +97,7 @@ class MyAppState extends State<MyApp> {
 }
 
 class ModalTransactionForm extends StatelessWidget {
-  final Function(String, double) onAddButtonTapped;
+  final Function(String, double, DateTime) onAddButtonTapped;
 
   ModalTransactionForm({this.onAddButtonTapped});
 
